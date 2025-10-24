@@ -25,10 +25,7 @@ func Callback(c echo.Context) error {
 
 	token, err := generate(user.Email)
 	if err != nil {
-		return echo.NewHTTPError(
-			http.StatusInternalServerError,
-			err.Error(),
-		)
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
 	url := fmt.Sprintf("http://localhost:9000/callback/%s", token)

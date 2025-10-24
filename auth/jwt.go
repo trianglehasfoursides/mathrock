@@ -28,7 +28,7 @@ func generate(email string) (string, error) {
 }
 
 func verify(token string) error {
-	tkn, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+	tkn, err := jwt.Parse(token, func(token *jwt.Token) (any, error) {
 		return secret, nil
 	})
 

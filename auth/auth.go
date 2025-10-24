@@ -24,18 +24,12 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		token := c.Request().Header.Get("Authorization")
 		if token == "" {
-			return echo.NewHTTPError(
-				http.StatusBadRequest,
-				"missing header",
-			)
+			return echo.NewHTTPError(http.StatusBadRequest, "missing header")
 		}
 
 		token = token[len("Bearer "):]
 		if err := verify(token); err != nil {
-			return echo.NewHTTPError(
-				http.StatusUnauthorized,
-				err.Error(),
-			)
+			return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
 		}
 
 		return next(c)
