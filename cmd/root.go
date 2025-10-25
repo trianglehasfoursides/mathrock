@@ -3,10 +3,9 @@ package main
 import "github.com/spf13/cobra"
 
 var root = &cobra.Command{
-	Use:     "mathrock",
-	Aliases: []string{"mr"},
-	Short:   "",
-	Long:    "",
+	Use:   "mr",
+	Short: "",
+	Long:  "",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return cmd.Help()
 	},
