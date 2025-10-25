@@ -1,0 +1,6 @@
+@hashtea_HostAddress = http://localhost:5271
+
+GET {{hashtea_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
