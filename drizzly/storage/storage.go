@@ -1,14 +1,11 @@
 package storage
 
-import (
-	"context"
+import "os"
 
-	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/credentials"
-	"github.com/aws/aws-sdk-go-v2/service/s3"
-)
+var Store Storage
 
 type Storage interface {
-	Upload() error
+	Upload(file *os.File) error
+	Get(name string) error
+	Delete(name string) error
 }
