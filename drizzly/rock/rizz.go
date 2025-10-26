@@ -3,20 +3,20 @@ package rock
 import (
 	"context"
 	"errors"
-
-	"github.com/dgraph-io/ristretto/v2"
+	"sync"
 )
 
 type rizz struct {
-	cache *ristretto.Cache[string, string]
+	cache sync.Map
 }
 
 func (r *rizz) Get(_ context.Context, key string) (val string, err error) {
-	val, exist := r.cache.Get(key)
+	value, exist := r.cache.Load(key)
 	if !exist {
 		return "", errors.New("")
 	}
 
+	val = value.(string)
 	return val, nil
 }
 
