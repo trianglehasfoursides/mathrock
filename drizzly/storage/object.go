@@ -1,13 +1,22 @@
 package storage
 
 import (
+	"context"
+	"os"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
-func objectstg() (err error) {
+type Object struct {
+	client   *s3.Client
+	uploader *manager.Uploader
+}
+
+func (o *Object) Setup() (err error) {
 	resolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 		if service == s3.ServiceID {
 			return aws.Endpoint{
@@ -27,7 +36,17 @@ func objectstg() (err error) {
 		return
 	}
 
-	client := s3.NewFromConfig(cfg, func(o *s3.Options) {
+	o.client = s3.NewFromConfig(cfg, func(o *s3.Options) {
 		o.UsePathStyle = true // Penting untuk MinIO
+	})
+
+	o.uploader = manager.NewUploader(o.client)
+
+	return
+}
+
+func (o *Object) Upload(file *os.File) (err error) {
+	o.uploader.Upload(context.TODO(), &s3.PutObjectInput{
+		Body: file,
 	})
 }
