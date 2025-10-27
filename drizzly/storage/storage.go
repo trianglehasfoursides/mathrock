@@ -1,11 +1,13 @@
 package storage
 
-import "os"
+import (
+	"os"
+)
 
-var Store Storage
+var Box Storage
 
 type Storage interface {
-	Upload(file *os.File) error
-	Get(name string) error
-	Delete(name string) error
+	Upload(file *os.File) (string, error)
+	Get(hash string) error
+	Delete(hash string) error
 }
